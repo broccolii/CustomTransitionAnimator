@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D39E27457EB7AC059F16E6A65E5C1A059ECF8B35",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2ADE6DD5FE3F220904FC8623C0EDE339BC93A3D6" : 0,
+    "D39E27457EB7AC059F16E6A65E5C1A059ECF8B35" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FCC1894F-20D0-4D7A-8036-4CBCFE3D3442",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2ADE6DD5FE3F220904FC8623C0EDE339BC93A3D6" : "",
+    "D39E27457EB7AC059F16E6A65E5C1A059ECF8B35" : "CustomTransitionAnimator\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CustomTransitionAnimator",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CustomTransitionAnimator.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/broccolii\/LoadingView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2ADE6DD5FE3F220904FC8623C0EDE339BC93A3D6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/broccolii\/CustomTransitionAnimator.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D39E27457EB7AC059F16E6A65E5C1A059ECF8B35"
+    }
+  ]
+}

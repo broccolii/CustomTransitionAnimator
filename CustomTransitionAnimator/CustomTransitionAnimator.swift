@@ -69,8 +69,6 @@ class CustomTransitionAnimator: UIPercentDrivenInteractiveTransition {
             
             if velocityForSelectedDirtection > 100 {
                 finishInteractiveTransition()
-            } else if velocityForSelectedDirtection < -100 {
-                finishInteractiveTransition()
             } else {
                 cancelInteractiveTransition()
             }
@@ -245,15 +243,27 @@ extension CustomTransitionAnimator {
 extension CustomTransitionAnimator {
     override func updateInteractiveTransition(percentComplete: CGFloat) {
         
+//        if distance / UIScreen.mainScreen().bounds.height > percentComplete {
+//            debugPrint(percentComplete)
+//            return
+//        }
+        //        debugPrint("进来了")
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         
-        let sacle = 1 + (((1 / self.behindViewScale) - 1) * percentComplete)
-        let transform = CATransform3DMakeScale(sacle, sacle, 1)
-        toViewController.view.layer.transform = CATransform3DConcat(tempTransform, transform)
-        toViewController.view.alpha = behindViewAlpha + sacle - 1.0
+        var updateRect: CGRect!
         
-        var updateRect = CGRect(x: 0, y: fromViewController.view.bounds.height * percentComplete, width: fromViewController.view.bounds.width, height: fromViewController.view.bounds.height)
+        if fromViewController.view.bounds.height * percentComplete < distance {
+            updateRect = CGRect(x: 0, y: distance, width: fromViewController.view.bounds.width, height: fromViewController.view.bounds.height)
+        } else {
+            updateRect = CGRect(x: 0, y: fromViewController.view.bounds.height * percentComplete, width: fromViewController.view.bounds.width, height: fromViewController.view.bounds.height)
+            
+            let percent = (fromViewController.view.bounds.height * percentComplete - distance) / (UIScreen.mainScreen().bounds.height - distance)
+            let sacle =  ((1 / self.behindViewScale) - 1) * percent + 1
+            let transform = CATransform3DMakeScale(sacle, sacle, 1)
+            toViewController.view.layer.transform = CATransform3DConcat(tempTransform, transform)
+            toViewController.view.alpha = behindViewAlpha + sacle - 1.0
+        }
         
         if isnan(updateRect.origin.x) || isinf(updateRect.origin.x) {
             updateRect.origin.x = 0
@@ -270,21 +280,27 @@ extension CustomTransitionAnimator {
     
     override func cancelInteractiveTransition() {
         
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        
-        UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            
-            toViewController.view.layer.transform = self.tempTransform
-            toViewController.view.alpha = self.behindViewAlpha
-            fromViewController.view.frame = CGRect(x: 0, y: self.distance, width: fromViewController.view.frame.width, height: fromViewController.view.frame.height)
-            
-            }) { (finished) -> Void in
-                self.transitionContext.completeTransition(false)
+        if transitionContext != nil && transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) != nil && transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) != nil {
+            let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+            let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+            UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                fromViewController.view.userInteractionEnabled = false
+                toViewController.view.layer.transform = self.tempTransform
+                toViewController.view.alpha = self.behindViewAlpha
+                fromViewController.view.frame = CGRect(x: 0, y: self.distance, width: fromViewController.view.frame.width, height: fromViewController.view.frame.height)
+                
+                }) { (finished) -> Void in
+                    fromViewController.view.userInteractionEnabled = true
+                    self.transitionContext.completeTransition(false)
+            }
         }
+        
     }
     
     override func finishInteractiveTransition() {
+        guard transitionContext != nil else {
+            return
+        }
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         
